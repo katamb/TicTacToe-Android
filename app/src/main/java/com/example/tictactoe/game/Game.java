@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.tictactoe.MainActivity;
@@ -31,6 +32,8 @@ public abstract class Game extends Activity {
         super.onCreate(savedInstanceState);
         GameViewBinding gBinding = DataBindingUtil.setContentView(this, R.layout.game_view);
         gBinding.setGame(this);
+
+        newGame();
         setup();
     }
 
@@ -46,8 +49,7 @@ public abstract class Game extends Activity {
 
     abstract void move(ImageButton button, int cellRow, int cellCol);
 
-    boolean checkIfWon(Player player) {
-        // todo check if all possible moves are done
+    boolean checkIfCurrentPlayerWon(Player player) {
         for (int i = 0; i < 3; i++) {
             // check all rows
             if (allEqual(player, score[i][0], score[i][1], score[i][2])) {
@@ -70,7 +72,7 @@ public abstract class Game extends Activity {
         return false;
     }
 
-    // always call this method after checkIfWon()
+    // always call this method after checkIfCurrentPlayerWon()
     boolean checkIfDraw() {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
@@ -92,89 +94,48 @@ public abstract class Game extends Activity {
     }
 
     public void setup() {
-        // TODO: I don't like the current solution. Try to make this in a loop?
-        final ImageButton cell_00 = findViewById(R.id.cell_00);
-        final ImageButton cell_01 = findViewById(R.id.cell_01);
-        final ImageButton cell_02 = findViewById(R.id.cell_02);
-        final ImageButton cell_10 = findViewById(R.id.cell_10);
-        final ImageButton cell_11 = findViewById(R.id.cell_11);
-        final ImageButton cell_12 = findViewById(R.id.cell_12);
-        final ImageButton cell_20 = findViewById(R.id.cell_20);
-        final ImageButton cell_21 = findViewById(R.id.cell_21);
-        final ImageButton cell_22 = findViewById(R.id.cell_22);
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
 
-        cell_00.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[0][0] == null) {
-                    move(cell_00, 0, 0);
-                }
-            }
-        });
-        cell_01.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[0][1] == null) {
-                    move(cell_01, 0, 1);
-                }
-            }
-        });
-        cell_02.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[0][2] == null) {
-                    move(cell_02, 0, 2);
-                }
-            }
-        });
-        cell_10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[1][0] == null) {
-                    move(cell_10, 1, 0);
-                }
-            }
-        });
-        cell_11.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[1][1] == null) {
-                    move(cell_11, 1, 1);
-                }
-            }
-        });
-        cell_12.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[1][2] == null) {
-                    move(cell_12, 1, 2);
-                }
-            }
-        });
-        cell_20.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[2][0] == null) {
-                    move(cell_20, 2, 0);
-                }
-            }
-        });
-        cell_21.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[2][1] == null) {
-                    move(cell_21, 2, 1);
-                }
-            }
-        });
+                final int r = row;
+                final int c = col;
+                final ImageButton cell = getImageButton(row, col);
 
-        cell_22.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (score[2][2] == null) {
-                    move(cell_22, 2, 2);
-                }
+                cell.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (score[r][c] == null) {
+                            move(cell, r, c);
+                        }
+                    }
+                });
             }
-        });
+        }
+    }
+
+    public abstract void newGame();
+
+    ImageButton getImageButton(int row, int col) {
+        switch (row) {
+            case 0:
+                switch (col) {
+                    case 0: return findViewById(R.id.cell_00);
+                    case 1: return findViewById(R.id.cell_01);
+                    case 2: return findViewById(R.id.cell_02);
+                }
+            case 1:
+                switch (col) {
+                    case 0: return findViewById(R.id.cell_10);
+                    case 1: return findViewById(R.id.cell_11);
+                    case 2: return findViewById(R.id.cell_12);
+                }
+            case 2:
+                switch (col) {
+                    case 0: return findViewById(R.id.cell_20);
+                    case 1: return findViewById(R.id.cell_21);
+                    case 2: return findViewById(R.id.cell_22);
+                }
+        }
+        return null;
     }
 }

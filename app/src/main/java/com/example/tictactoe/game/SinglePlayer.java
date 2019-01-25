@@ -1,5 +1,8 @@
 package com.example.tictactoe.game;
 
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.tictactoe.R;
@@ -24,7 +27,7 @@ public class SinglePlayer extends Game {
 
         button.setImageResource(R.drawable.cross);
         score[cellRow][cellCol] = player1;
-        if (checkIfWon(player1)) {
+        if (checkIfCurrentPlayerWon(player1)) {
             gameOver = true;
             gameInfo.setGameStatus("You won");
             return;
@@ -45,7 +48,7 @@ public class SinglePlayer extends Game {
         button = getImageButton(row, col);
         button.setImageResource(R.drawable.circle);
         score[row][col] = player2;
-        if (checkIfWon(player2)) {
+        if (checkIfCurrentPlayerWon(player2)) {
             gameOver = true;
             gameInfo.setGameStatus("Computer won");
             return;
@@ -59,28 +62,14 @@ public class SinglePlayer extends Game {
         }
     }
 
-    private ImageButton getImageButton(int row, int col) {
-        switch (row) {
-            case 0:
-                switch (col) {
-                    case 0: return findViewById(R.id.cell_00);
-                    case 1: return findViewById(R.id.cell_01);
-                    case 2: return findViewById(R.id.cell_02);
-                }
-            case 1:
-                switch (col) {
-                    case 0: return findViewById(R.id.cell_10);
-                    case 1: return findViewById(R.id.cell_11);
-                    case 2: return findViewById(R.id.cell_12);
-                }
-            case 2:
-                switch (col) {
-                    case 0: return findViewById(R.id.cell_20);
-                    case 1: return findViewById(R.id.cell_21);
-                    case 2: return findViewById(R.id.cell_22);
-                }
-        }
-        return null;
+    public void newGame() {
+        Button gameButton = findViewById(R.id.new_game);
+        gameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), SinglePlayer.class));
+                finish();
+            }
+        });
     }
-
 }

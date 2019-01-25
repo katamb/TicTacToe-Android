@@ -1,5 +1,8 @@
 package com.example.tictactoe.game;
 
+import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.tictactoe.R;
@@ -23,7 +26,7 @@ public class MultiPlayer extends Game {
         if (this.turn == this.player1) {
             button.setImageResource(R.drawable.cross);
             score[cellRow][cellCol] = player1;
-            if (checkIfWon(player1)) {
+            if (checkIfCurrentPlayerWon(player1)) {
                 gameOver = true;
                 gameInfo.setGameStatus("Player 1 won");
                 return;
@@ -33,7 +36,7 @@ public class MultiPlayer extends Game {
         } else {
             button.setImageResource(R.drawable.circle);
             score[cellRow][cellCol] = player2;
-            if (checkIfWon(player2)) {
+            if (checkIfCurrentPlayerWon(player2)) {
                 gameOver = true;
                 gameInfo.setGameStatus("Player 2 won");
                 return;
@@ -46,5 +49,16 @@ public class MultiPlayer extends Game {
             gameOver = true;
             gameInfo.setGameStatus("Draw");
         }
+    }
+
+    public void newGame() {
+        Button gameButton = findViewById(R.id.new_game);
+        gameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), MultiPlayer.class));
+                finish();
+            }
+        });
     }
 }
