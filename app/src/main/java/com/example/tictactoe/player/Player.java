@@ -8,6 +8,14 @@ public class Player {
         this.name = name;
     }
 
+    public Player(String name, String substituteName) {
+        if (name != null && !(name.length() < 1) && !(name.length() > 12)) {
+            this.name = name;
+        } else {
+            this.name = substituteName;
+        }
+    }
+
     public String getName() {
         return name;
     }

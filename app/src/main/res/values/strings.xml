@@ -3,4 +3,6 @@
     <string name="game_style_1">Single player</string>
     <string name="game_style_2">Two players</string>
     <string name="new_game">New Game</string>
+    <string name="player_1_name">Player 1 name</string>
+    <string name="player_2_name">Player 2 name</string>
 </resources>

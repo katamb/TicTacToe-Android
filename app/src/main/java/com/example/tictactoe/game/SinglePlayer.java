@@ -1,6 +1,5 @@
 package com.example.tictactoe.game;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,12 +9,13 @@ import com.example.tictactoe.player.Player;
 
 import java.util.Random;
 
+import static com.example.tictactoe.MainActivity.player1;
+import static com.example.tictactoe.MainActivity.player2;
+
 public class SinglePlayer extends Game {
 
     public SinglePlayer() {
         super();
-        player1 = new Player("Player 1");
-        player2 = new Player("Player 2");
         gameInfo.setGameStatus("Your turn");
     }
 
@@ -25,16 +25,38 @@ public class SinglePlayer extends Game {
             return;
         }
 
+        humanMove(button, cellRow, cellCol);
+        if (gameOver) {
+            return;
+        }
+        if (checkIfDraw()) {
+            gameOver = true;
+            gameInfo.setGameStatus("Draw");
+        }
+
+        computerMove();
+        if (gameOver) {
+            return;
+        }
+        if (checkIfDraw()) {
+            gameOver = true;
+            gameInfo.setGameStatus("Draw");
+        }
+    }
+
+    private void humanMove(ImageButton button, int cellRow, int cellCol) {
         button.setImageResource(R.drawable.cross);
-        score[cellRow][cellCol] = player1;
-        if (checkIfCurrentPlayerWon(player1)) {
+        score[cellRow][cellCol] = turn;
+        if (checkIfCurrentPlayerWon(turn)) {
             gameOver = true;
             gameInfo.setGameStatus("You won");
             return;
         }
-        turn = player2;
+        turn = getOtherPlayer(turn);
         gameInfo.setGameStatus("Computers turn");
+    }
 
+    private void computerMove() {
         // TODO: better computer player
         Random rand = new Random();
         int row = rand.nextInt(3);
@@ -45,30 +67,41 @@ public class SinglePlayer extends Game {
             col = rand.nextInt(3);
         }
 
-        button = getImageButton(row, col);
+        ImageButton button = getImageButton(row, col);
         button.setImageResource(R.drawable.circle);
-        score[row][col] = player2;
-        if (checkIfCurrentPlayerWon(player2)) {
+        score[row][col] = turn;
+        if (checkIfCurrentPlayerWon(turn)) {
             gameOver = true;
             gameInfo.setGameStatus("Computer won");
             return;
         }
-        turn = player1;
+        turn = getOtherPlayer(turn);
         gameInfo.setGameStatus("Your turn");
-
-        if (checkIfDraw()) {
-            gameOver = true;
-            gameInfo.setGameStatus("Draw");
-        }
     }
 
+    @Override
     public void newGame() {
         Button gameButton = findViewById(R.id.new_game);
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), SinglePlayer.class));
-                finish();
+                score = new Player[3][3];
+                gameOver = false;
+                turn = getOtherPlayer(previousStarter);
+                previousStarter = getOtherPlayer(previousStarter);
+                gameInfo.setGameStatus(turn.getName() + " turn");
+
+                for (int row = 0; row < 3; row++) {
+                    for (int col = 0; col < 3; col++) {
+                        final ImageButton cell = getImageButton(row, col);
+                        cell.setImageResource(R.drawable.empty);
+                    }
+                }
+
+                if (turn == player2) {
+                    computerMove();
+                }
+
             }
         });
     }

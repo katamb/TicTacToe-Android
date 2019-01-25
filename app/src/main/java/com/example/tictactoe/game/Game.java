@@ -13,18 +13,23 @@ import com.example.tictactoe.R;
 import com.example.tictactoe.databinding.GameViewBinding;
 import com.example.tictactoe.player.Player;
 
+import static com.example.tictactoe.MainActivity.player1;
+import static com.example.tictactoe.MainActivity.player2;
+
 public abstract class Game extends Activity {
 
     GameInfo gameInfo;
-    Player player1;
-    Player player2;
     Player turn;
-    Player[][] score = new Player[3][3];
-    boolean gameOver = false;
+    Player previousStarter;
+    Player[][] score;
+    boolean gameOver;
 
     public Game() {
         gameInfo = new GameInfo();
         turn = player1;
+        previousStarter = player1;
+        score = new Player[3][3];
+        gameOver = false;
     }
 
     @Override
@@ -43,11 +48,53 @@ public abstract class Game extends Activity {
         finish();
     }
 
+    public void newGame() {
+        Button gameButton = findViewById(R.id.new_game);
+        gameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                score = new Player[3][3];
+                gameOver = false;
+                turn = getOtherPlayer(previousStarter);
+                previousStarter = getOtherPlayer(previousStarter);
+                gameInfo.setGameStatus(turn.getName() + " turn");
+
+                for (int row = 0; row < 3; row++) {
+                    for (int col = 0; col < 3; col++) {
+                        final ImageButton cell = getImageButton(row, col);
+                        cell.setImageResource(R.drawable.empty);
+                    }
+                }
+
+            }
+        });
+    }
+
+    abstract void move(ImageButton button, int cellRow, int cellCol);
+
     public GameInfo getGameInfo() {
         return gameInfo;
     }
 
-    abstract void move(ImageButton button, int cellRow, int cellCol);
+    public void setup() {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
+
+                final int r = row;
+                final int c = col;
+                final ImageButton cell = getImageButton(row, col);
+
+                cell.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (score[r][c] == null) {
+                            move(cell, r, c);
+                        }
+                    }
+                });
+            }
+        }
+    }
 
     boolean checkIfCurrentPlayerWon(Player player) {
         for (int i = 0; i < 3; i++) {
@@ -93,28 +140,6 @@ public abstract class Game extends Activity {
         return true;
     }
 
-    public void setup() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-
-                final int r = row;
-                final int c = col;
-                final ImageButton cell = getImageButton(row, col);
-
-                cell.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (score[r][c] == null) {
-                            move(cell, r, c);
-                        }
-                    }
-                });
-            }
-        }
-    }
-
-    public abstract void newGame();
-
     ImageButton getImageButton(int row, int col) {
         switch (row) {
             case 0:
@@ -137,5 +162,13 @@ public abstract class Game extends Activity {
                 }
         }
         return null;
+    }
+
+    Player getOtherPlayer(Player current) {
+        if (current == player1) {
+            return player2;
+        } else {
+            return player1;
+        }
     }
 }
