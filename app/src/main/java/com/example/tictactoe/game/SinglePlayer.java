@@ -6,10 +6,9 @@ import android.widget.ImageButton;
 
 import com.example.tictactoe.R;
 import com.example.tictactoe.player.Player;
+import com.example.tictactoe.strategy.MiniMaxStrategy;
+import com.example.tictactoe.strategy.Strategy;
 
-import java.util.Random;
-
-import static com.example.tictactoe.MainActivity.player1;
 import static com.example.tictactoe.MainActivity.player2;
 
 public class SinglePlayer extends Game {
@@ -32,6 +31,7 @@ public class SinglePlayer extends Game {
         if (checkIfDraw()) {
             gameOver = true;
             gameInfo.setGameStatus("Draw");
+            return;
         }
 
         computerMove();
@@ -41,6 +41,7 @@ public class SinglePlayer extends Game {
         if (checkIfDraw()) {
             gameOver = true;
             gameInfo.setGameStatus("Draw");
+            return;
         }
     }
 
@@ -57,15 +58,12 @@ public class SinglePlayer extends Game {
     }
 
     private void computerMove() {
-        // TODO: better computer player
-        Random rand = new Random();
-        int row = rand.nextInt(3);
-        int col = rand.nextInt(3);
-
-        while (score[row][col] != null) {
-            row = rand.nextInt(3);
-            col = rand.nextInt(3);
-        }
+        // TODO: add choice between difficulties
+        //Strategy strat = new RandomMoveStrategy(score);
+        Strategy strat = new MiniMaxStrategy(score);
+        int[] move = strat.moveStrategy();
+        int row = move[0];
+        int col = move[1];
 
         ImageButton button = getImageButton(row, col);
         button.setImageResource(R.drawable.circle);
