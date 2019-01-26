@@ -22,11 +22,6 @@
         </activity>
 
         <activity
-            android:name=".game.Game"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name=".game.MultiPlayer"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
