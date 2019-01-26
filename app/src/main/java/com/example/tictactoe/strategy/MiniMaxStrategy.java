@@ -29,13 +29,13 @@ public class MiniMaxStrategy implements Strategy {
         LOWER_LEFT_CORNER, LOWER_MIDDLE, LOWER_RIGHT_CORNER
         }
 
-    public MiniMaxStrategy(Player[][] score) {
-        this.score = score;
+    public MiniMaxStrategy(int depth) {
+        this.depth = depth;
     }
 
     @Override
-    public int[] moveStrategy() {
-        depth = 4;
+    public int[] moveStrategy(Player[][] score) {
+        this.score = score;
         minimax(depth, player2, Integer.MIN_VALUE, Integer.MAX_VALUE);
         return new int[] {bestMove.getRow(), bestMove.getCol()};
     }

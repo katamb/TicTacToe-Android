@@ -1,8 +1,11 @@
 package com.example.tictactoe.player;
 
+import com.example.tictactoe.strategy.Strategy;
+
 public class Player {
 
     private String name;
+    private Strategy strategy;
 
     public Player(String name) {
         this.name = name;
@@ -22,6 +25,14 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
     }
 
 }

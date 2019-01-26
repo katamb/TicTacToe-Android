@@ -6,15 +6,17 @@ import android.widget.ImageButton;
 
 import com.example.tictactoe.R;
 import com.example.tictactoe.player.Player;
-import com.example.tictactoe.strategy.MiniMaxStrategy;
 import com.example.tictactoe.strategy.Strategy;
 
 import static com.example.tictactoe.MainActivity.player2;
 
 public class SinglePlayer extends Game {
 
+    private Strategy strategy;
+
     public SinglePlayer() {
         super();
+        this.strategy = player2.getStrategy();
         gameInfo.setGameStatus("Your turn");
     }
 
@@ -58,10 +60,7 @@ public class SinglePlayer extends Game {
     }
 
     private void computerMove() {
-        // TODO: add choice between difficulties
-        //Strategy strat = new RandomMoveStrategy(score);
-        Strategy strat = new MiniMaxStrategy(score);
-        int[] move = strat.moveStrategy();
+        int[] move = strategy.moveStrategy(score);
         int row = move[0];
         int col = move[1];
 
@@ -87,7 +86,7 @@ public class SinglePlayer extends Game {
                 gameOver = false;
                 turn = getOtherPlayer(previousStarter);
                 previousStarter = getOtherPlayer(previousStarter);
-                gameInfo.setGameStatus(turn.getName() + " turn");
+                gameInfo.setGameStatus("Your turn");
 
                 for (int row = 0; row < 3; row++) {
                     for (int col = 0; col < 3; col++) {

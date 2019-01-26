@@ -6,14 +6,8 @@ import java.util.Random;
 
 public class RandomMoveStrategy implements Strategy {
 
-    private Player[][] score;
-
-    public RandomMoveStrategy(Player[][] score) {
-        this.score = score;
-    }
-
     @Override
-    public int[] moveStrategy() {
+    public int[] moveStrategy(Player[][] score) {
         Random rand = new Random();
         int row = rand.nextInt(3);
         int col = rand.nextInt(3);

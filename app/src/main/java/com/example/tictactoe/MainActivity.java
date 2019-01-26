@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 
 import com.example.tictactoe.game.MultiPlayer;
 import com.example.tictactoe.game.SinglePlayer;
 import com.example.tictactoe.player.Player;
+import com.example.tictactoe.strategy.MiniMaxStrategy;
+import com.example.tictactoe.strategy.RandomMoveStrategy;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 player2 = new Player("Computer");
+                SeekBar seekBar = findViewById(R.id.difficulty);
+                if (seekBar.getProgress() == 0) {
+                    player2.setStrategy(new RandomMoveStrategy());
+                } else if (seekBar.getProgress() == 1) {
+                    player2.setStrategy(new MiniMaxStrategy(1));
+                } else if (seekBar.getProgress() == 2) {
+                    player2.setStrategy(new MiniMaxStrategy(3));
+                }
 
                 startActivity(new Intent(getApplicationContext(), SinglePlayer.class));
                 finish();
