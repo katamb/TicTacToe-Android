@@ -8,4 +8,13 @@
     <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
+    <string name="cell_00">cell_00</string>
+    <string name="cell_02">cell_02</string>
+    <string name="cell_01">cell_01</string>
+    <string name="cell_10">cell_10</string>
+    <string name="cell_11">cell_11</string>
+    <string name="cell_12">cell_12</string>
+    <string name="cell_20">cell_20</string>
+    <string name="cell_21">cell_21</string>
+    <string name="cell_22">cell_22</string>
 </resources>

@@ -12,7 +12,7 @@ import static com.example.tictactoe.MainActivity.player2;
 
 public class SinglePlayer extends Game {
 
-    private Strategy strategy;
+    private final Strategy strategy;
 
     public SinglePlayer() {
         super();

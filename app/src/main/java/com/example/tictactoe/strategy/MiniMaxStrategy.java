@@ -22,7 +22,7 @@ public class MiniMaxStrategy implements Strategy {
 
     private Player[][] score;
     private Move bestMove;
-    private int depth;
+    private final int depth;
     enum Location {
         UPPER_LEFT_CORNER, UPPER_MIDDLE, UPPER_RIGHT_CORNER,
         MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT,

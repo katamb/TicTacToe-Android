@@ -18,7 +18,7 @@ import static com.example.tictactoe.MainActivity.player2;
 
 public abstract class Game extends Activity {
 
-    GameInfo gameInfo;
+    final GameInfo gameInfo;
     Player turn;
     Player previousStarter;
     Player[][] score;

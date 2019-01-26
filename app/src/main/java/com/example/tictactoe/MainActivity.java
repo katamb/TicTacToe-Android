@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText player1Name = (EditText) findViewById(R.id.player_1_name);
+                EditText player1Name = findViewById(R.id.player_1_name);
                 if (player1Name != null) {
                     player1 = new Player(player1Name.getText().toString(), "Player 1");
                 } else {
@@ -61,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText player1Name = (EditText) findViewById(R.id.player_1_name);
+                EditText player1Name = findViewById(R.id.player_1_name);
                 if (player1Name != null) {
                     player1 = new Player(player1Name.getText().toString(), "Player 1");
                 } else {
                     player1 = new Player("Player 1");
                 }
 
-                EditText player2Name = (EditText) findViewById(R.id.player_2_name);
+                EditText player2Name = findViewById(R.id.player_2_name);
                 if (player2Name != null) {
                     player2 = new Player(player2Name.getText().toString(), "Player 2");
                 } else {
